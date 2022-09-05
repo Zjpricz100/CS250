@@ -1,38 +1,60 @@
-#include "Node.cpp"
+#include "AnyList.h"
 
-class AnyList
+#include <iostream>
+using namespace std;
+
+void AnyList::insertFront(int newData)
 {
-public:
-    AnyList() : ptrToFirst(nullptr), count(0) {} 
+    ptrToFirst = new Node(newData, ptrToFirst);
+    ++count;
+}
 
-    void insertEmpty(int)
+void AnyList::print() const
+{
+    if (ptrToFirst == nullptr)
+        // Check if the list is empty.
+        // You can also use: if (count == 0)
+        cerr << "List is empty.";
+    // Use cerr, instead of cout. Why?
+    else
     {
-        // NOTE: BELOW WE CAN USE THE OVERLOADED CONSTRUCTOR
-            // TO GIVE HTE NODE DATA AND NULLPTR ON CREATION
-        ptrToFirst = new Node(4, nullptr); // default value
+        Node *current = ptrToFirst;
+        // Create a pointer to traverse the list.
+        // This pointer will point to the first node in the list.
 
-        // Long winded (but readable)
-            /*
-                Node *ptrToNewNode = new Node(4, nullptr);
-                ptrToFirst = ptrToNewNode;
-            */
-        
-        ++count; // we added an element, update var for it
+        while (current != nullptr)
+        // While the current pointer is NOT a nullptr,
+        // that is, while the current pointer has not reached
+        // the end of the list.
+        {
+            // Output the data.
+            cout << current->getData() << " ";
+            // Move the pointer current forward.
+            current = current->getPtrToNext();
+        }
     }
-    void insertFront(int)
+}
+
+// This function does not delete the
+// list object; it ONLY deletes the nodes.
+void AnyList::clearList()
+{
+    Node *temp = ptrToFirst;
+    // Pointer to delete the node, which
+    // starts by pointing to the first node.
+
+    while (ptrToFirst != nullptr)
     {
-        
-    } 
+        ptrToFirst = ptrToFirst->getPtrToNext();
+        delete temp;
+        temp = ptrToFirst;
+    }
 
-    void print() const;
+    // Update the count outside the loop.
+    count = 0;
+}
 
-    void clearList();
-
-    ~AnyList();
-
-private:
-    // Pointer to point to the first node in the list.
-    Node *ptrToFirst; 
-    // Variable to keep track of number of nodes in the list.
-    int count;        
-};
+AnyList::~AnyList()
+{
+    clearList();
+}
