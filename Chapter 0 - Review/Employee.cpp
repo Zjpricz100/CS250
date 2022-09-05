@@ -1,8 +1,9 @@
 #include "Employee.h"
- 
+
 #include <iostream>
+#include <string>
 using namespace std;
- 
+
 Employee::Employee(const string &newName, int newID)
 {
     name = newName;
@@ -44,15 +45,15 @@ void Employee::print() const
     cout << "Employee: " << name << endl
          << "ID: " << id << endl;
 }
- 
+
 // DO NOT FORGET ABOUT CONST FOR FUNCTIONS
 // THESE DEFINITIONS ARE OUT OF THE .H file. ADD EMPLOYEE::
 // DONT CALL MEMBER FUNCTIONS WHEN THE VARIABLES ARE AVAIL
- 
+
 // name == otherEmployee.name
- 
+
 // Is better then
- 
+
 // name == otherEmployee.getName()
- 
+
 // EFFICIENCY ^^^
