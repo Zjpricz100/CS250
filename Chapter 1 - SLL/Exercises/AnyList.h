@@ -30,7 +30,8 @@ public:
 
 	void insertFront(int);
 	void insertBack(int);
-
+	void replaceData(int, int);
+	void deleteElem(int);
 	int getNumOfElements() const;
 	bool search(int) const;
 
