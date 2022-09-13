@@ -16,6 +16,8 @@ public:
     void setData(int theData) { data = theData; }
     void setPrev(Node *prevLink) { prev = prevLink; }
     void setNext(Node *nextLink) { next = nextLink; }
+
+    
     ~Node() {}
 
 private:
@@ -33,6 +35,12 @@ public:
 
     void printForward() const;
     void printReverse() const;
+
+    int front() const;
+    int back() const;
+    void insertBack(int);
+    void moveToList(DoublyList&);
+    void deleteElem(int);
 
     void clearList();
     ~DoublyList();
