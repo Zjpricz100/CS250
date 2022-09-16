@@ -1,7 +1,14 @@
 #include "DoublyList.h"
 #include <iostream>
 using namespace std;
-void DoublyList::deleteElem(int key)
+
+// if empty, print error
+// else
+// if first is key and count is one, delete and make the first and last nullptr 
+// if first is key but there are more elements, ADVANCE first, delete firstPrev, MAKE firstPrev NULLPTR!!!!
+// if last is key, go backwards once, delete lastNext, MAKE lastNext NULLPTR!!!
+// iterate through if between, make current point to nullptr after deleting
+void DoublyList::deleteElem(int elementToDelete)
 {
    if (first == nullptr)
    {
@@ -10,50 +17,48 @@ void DoublyList::deleteElem(int key)
    else
    {
       bool found = false;
-      if (count == 1 && first->getData() == key)
+      if (first->getData() == elementToDelete)
       {
-         delete first;
-         first = nullptr;
-         last = nullptr;
+         if (count == 1)
+         {
+            delete first;
+            first = nullptr;
+            last = nullptr;
+         }
+         else // one element to delete, more elements in the list
+         {
+            first = first->getNext();
+            delete first->getPrev();
+            first->setPrev(nullptr); // DONT FORGET THIS
+         }
+         found = true;
+         --count;
+      }
+      else if (last->getData() == elementToDelete)
+      {
+         last = last->getPrev();
+         delete last->getNext();
+         last->setNext(nullptr); // DONT FORGET THIS
          found = true;
          --count;
       }
       else
       {
-         if (first->getData() == key)
+         Node *current = first->getNext(); // we already know its not the first element
+         while (current != nullptr && !found)
          {
-            first = first->getNext();
-            delete first->getPrev();
-            first->setPrev(nullptr);
-            found = true;
-            --count;
-         }
-         else if (last->getData() == key)
-         {
-            last = last->getPrev();
-            delete last->getNext();
-            last->setNext(nullptr);
-            found = true;
-            --count;
-         }
-         else // the case where we traverse (inbetweeen both ends)
-         {
-            Node *current = first;
-            while (current != nullptr && !found)
+            if (current->getData() == elementToDelete)
             {
-               if (current->getData() == key)
-               {
-                  current->getPrev()->setNext(current->getNext()); // 2 -> 4
-                  current->getNext()->setPrev(current->getPrev()); // 4 <- 2
-                  delete current;
-                  current = nullptr;
-                  found = true;
-                  --count;
-               }
-               else
-               {
-                  current = current->getNext();
-               }
+               current->getPrev()->setNext(current->getNext());
+               current->getNext()->setPrev(current->getPrev());
+               delete current;
+               current = nullptr;
+               found = true;
+               --count;
+            }
+            else
+            {
+               current = current->getNext();
             }
          }
       }
@@ -62,5 +67,8 @@ void DoublyList::deleteElem(int key)
       {
          cerr << "Element to be deleted is not in the list.\n";
       }
+      
+      
    }
 }
+
